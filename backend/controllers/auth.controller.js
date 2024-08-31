@@ -40,6 +40,14 @@ export async function signup(req, res) {
         .status(400)
         .json({ success: false, message: "Username already exists." });
     }
+
+    const PROFILE_PICS = ["/avatar1.png", "/avatar2.png", "/avatar3.png"];
+
+    const newUser = newUser({
+      username: username,
+      email: email,
+      password: password,
+    });
   } catch (error) {}
 }
 

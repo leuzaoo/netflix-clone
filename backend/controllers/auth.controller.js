@@ -1,3 +1,4 @@
+import bcryptjs from "bcryptjs";
 import { User } from "../models/user.model.js";
 
 export async function signup(req, res) {
@@ -7,7 +8,7 @@ export async function signup(req, res) {
     if (!email || !password || !username) {
       return res
         .status(400)
-        .json({ success: false, message: "All fields are required." });
+        .json({ success: false, message: "Todos os campos são obrigatórios." });
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -15,13 +16,13 @@ export async function signup(req, res) {
     if (!emailRegex.test(email)) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid email." });
+        .json({ success: false, message: "Email inválido." });
     }
 
     if (password.length < 6) {
       return res.status(400).json({
         success: false,
-        message: "Password must be at least 6 characters.",
+        message: "A senha deve conter no mínimo 6 caracteres.",
       });
     }
 
@@ -30,7 +31,7 @@ export async function signup(req, res) {
     if (existingUserByEmail) {
       return res
         .status(400)
-        .json({ success: false, message: "Email already exists." });
+        .json({ success: false, message: "Email em uso, utilize outro." });
     }
 
     const existingUserByUsername = await User.findOne({ username: username });
@@ -38,24 +39,37 @@ export async function signup(req, res) {
     if (existingUserByUsername) {
       return res
         .status(400)
-        .json({ success: false, message: "Username already exists." });
+        .json({ success: false, message: "Nome de usuário já existente." });
     }
+
+    const salt = await bcryptjs.genSalt(10);
+    const hashedPassword = await bcryptjs.hash(password, salt);
 
     const PROFILE_PICS = ["/avatar1.png", "/avatar2.png", "/avatar3.png"];
 
     const image = PROFILE_PICS[Math.floor(Math.random() * PROFILE_PICS.length)];
 
-    const newUser = newUser({
-      username,
+    const newUser = new User({
       email,
-      password,
+      password: hashedPassword,
+      username,
       image,
     });
 
     await newUser.save();
+
+    res.status(201).json({
+      success: true,
+      user: {
+        ...newUser._doc,
+        password: "",
+      },
+    });
   } catch (error) {
-    console.log("Error in signup controller: ", error.message);
-    res.status(500).json({ success: false, message: "Internal server error." });
+    console.log("Erro no controlador de criação de conta:", error.message);
+    res
+      .status(500)
+      .json({ success: false, message: "Erro do servidor interno." });
   }
 }
 

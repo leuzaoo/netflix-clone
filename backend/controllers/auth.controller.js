@@ -71,7 +71,10 @@ export async function signup(req, res) {
     });
     //Caso houver algum erro no servidor (não necessariamente com os campos preenchidos pelo usuário)
   } catch (error) {
-    console.log("Erro no controlador de criação de conta:", error.message);
+    console.log(
+      "Erro no controlador de Criação de Conta (signup):",
+      error.message
+    );
     res
       .status(500)
       .json({ success: false, message: "Erro no servidor interno." });
@@ -79,7 +82,44 @@ export async function signup(req, res) {
 }
 
 export async function login(req, res) {
-  res.send("Login route");
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Preencha todos os campos." });
+    }
+
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Credenciais inválidas." });
+    }
+
+    const isPasswordCorrect = await bcryptjs.compare(password, user.password);
+    if (!isPasswordCorrect) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Credenciais inválidas." });
+    }
+
+    generateTokenAndSetCookie(user._id, res);
+
+    res.status(200).json({
+      success: true,
+      user: {
+        ...user._doc,
+        password: "",
+      },
+    });
+  } catch (error) {
+    console.log("Erro no controlador de Login:", error.message);
+    res
+      .status(500)
+      .json({ success: false, message: "Erro no servidor interno." });
+  }
 }
 
 export async function logout(req, res) {
@@ -87,7 +127,7 @@ export async function logout(req, res) {
     res.clearCookie("jwt-netflix");
     res.status(200).json({ success: true, message: "Você saiu da sua conta." });
   } catch (error) {
-    console.log("Erro no controlador de logout:", error.message);
+    console.log("Erro no controlador de Logout:", error.message);
     res
       .status(500)
       .json({ success: false, message: "Erro no servidor interno." });

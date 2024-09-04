@@ -1,5 +1,6 @@
-import bcryptjs from "bcryptjs";
+import { generateTokenAndSetCookie } from "../utils/generateToken.js";
 import { User } from "../models/user.model.js";
+import bcryptjs from "bcryptjs";
 
 export async function signup(req, res) {
   try {
@@ -56,8 +57,11 @@ export async function signup(req, res) {
       image,
     });
 
-    await newUser.save();
+    generateTokenAndSetCookie(newUser._id, res); // Irá gerar o Token e salvar nos Cookies quando for criado o usuário
 
+    await newUser.save(); // Salva o usuário se tiver tudo certo com os campos preenchidos
+
+    // Remove a senha da resposta devolvida pelo servidor
     res.status(201).json({
       success: true,
       user: {
@@ -65,11 +69,12 @@ export async function signup(req, res) {
         password: "",
       },
     });
+    //Caso houver algum erro no servidor (não necessariamente com os campos preenchidos pelo usuário)
   } catch (error) {
     console.log("Erro no controlador de criação de conta:", error.message);
     res
       .status(500)
-      .json({ success: false, message: "Erro do servidor interno." });
+      .json({ success: false, message: "Erro no servidor interno." });
   }
 }
 

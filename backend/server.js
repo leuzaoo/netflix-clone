@@ -1,8 +1,8 @@
 import express from "express";
 
 import { connectDB } from "./config/dbConnection.js";
-import { ENV_VARS } from "./config/envVariables.js";
 import authRoutes from "./routes/auth.router.js";
+import { ENV_VARS } from "./config/envVars.js";
 
 const app = express();
 

@@ -83,5 +83,13 @@ export async function login(req, res) {
 }
 
 export async function logout(req, res) {
-  res.send("Logout route");
+  try {
+    res.clearCookie("jwt-netflix");
+    res.status(200).json({ success: true, message: "Você saiu da sua conta." });
+  } catch (error) {
+    console.log("Erro no controlador de logout:", error.message);
+    res
+      .status(500)
+      .json({ success: false, message: "Erro no servidor interno." });
+  }
 }

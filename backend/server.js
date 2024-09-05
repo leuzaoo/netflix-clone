@@ -1,11 +1,18 @@
 import express from "express";
+
+import { connectDB } from "./config/dbConnection.js";
 import authRoutes from "./routes/auth.router.js";
+import { ENV_VARS } from "./config/envVars.js";
 
 const app = express();
-const PORT = 5000;
+
+const PORT = ENV_VARS.PORT;
+
+app.use(express.json()); // will allow us to parse req.body
 
 app.use("/api/v1/auth", authRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  connectDB();
 });

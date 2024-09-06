@@ -1,6 +1,7 @@
+import { ENV_VARS } from "../config/envVars.js";
 import axios from "axios";
 
-export const fetchFromTMBD = async (url) => {
+const fetchFromTMBD = async (url) => {
   const options = {
     headers: {
       accept: "application/json",
@@ -16,3 +17,5 @@ export const fetchFromTMBD = async (url) => {
 
   return response.data;
 };
+
+export default fetchFromTMBD;

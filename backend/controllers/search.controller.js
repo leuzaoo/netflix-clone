@@ -98,3 +98,39 @@ export async function searchTv(req, res) {
       .json({ success: false, message: "Erro no servidor interno." });
   }
 }
+
+export async function getSearchHistory(req, res) {
+  try {
+    res.status(200).json({ success: true, content: req.user.searchHistory });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Erro no servidor interno." });
+  }
+}
+
+export async function removeItemFromSearchHistory(req, res) {
+  let { id } = req.params;
+
+  id = parseInt(id);
+
+  try {
+    await User.findByIdAndUpdate(req.user._id, {
+      $pull: {
+        searchHistory: { id: id },
+      },
+    });
+
+    res
+      .status(200)
+      .json({ success: true, message: "Item removido do histórico." });
+  } catch (error) {
+    console.log(
+      "Erro no controlador 'removeItemFromSearchHistory':",
+      error.message
+    );
+    res
+      .status(500)
+      .json({ success: false, message: "Erro no servidor interno." });
+  }
+}

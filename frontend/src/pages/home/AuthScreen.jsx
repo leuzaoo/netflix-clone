@@ -1,13 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 
 const AuthScreen = () => {
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    navigate("/signup?email=" + email);
+  };
 
   return (
     <div className="hero-bg relative">
-      {/* Navbar */}
       <header className="max-w-6xl mx-auto flex items-center justify-between p-4 pb-10">
         <img
           src="/netflix-logo.png"
@@ -37,7 +42,7 @@ const AuthScreen = () => {
 
         <form
           className="flex flex-col md:flex-row gap-4 w-1/2"
-          // onSubmit={handleFormSubmit}
+          onSubmit={handleFormSubmit}
         >
           <input
             type="email"
@@ -88,12 +93,11 @@ const AuthScreen = () => {
         <h1 className="hidden">Offline</h1>
         <div className="py-10 bg-black text-white">
           <div className="flex max-w-6xl mx-auto items-center justify-center md:flex-row flex-col-reverse px-4 md:px-2">
-            {/* left side */}
             <div className="flex-1 relative">
               <div className="relative">
                 <img
                   src="/stranger-things-lg.png"
-                  alt="Stranger Things img"
+                  alt="Stranger Things"
                   className="mt-4"
                 />
 
@@ -104,7 +108,7 @@ const AuthScreen = () => {
                 >
                   <img
                     src="/stranger-things-sm.png"
-                    alt="image"
+                    alt="Stranger Things"
                     className="h-full"
                   />
                   <div className=" flex justify-between items-center w-full">
@@ -112,17 +116,18 @@ const AuthScreen = () => {
                       <span className="text-md lg:text-lg font-bold">
                         Stranger Things
                       </span>
-                      <span className="text-sm text-blue-500">
-                        Downloading...
-                      </span>
+                      <span className="text-sm text-blue-500">Baixando...</span>
                     </div>
 
-                    <img src="/download-icon.gif" alt="" className="h-12" />
+                    <img
+                      src="/download-icon.gif"
+                      alt="Download"
+                      className="h-12"
+                    />
                   </div>
                 </div>
               </div>
             </div>
-            {/* right side */}
 
             <div className="flex-1 md:text-left text-center">
               <h2 className="text-4xl md:text-5xl font-extrabold mb-4 text-balance">
@@ -153,7 +158,6 @@ const AuthScreen = () => {
               </p>
             </div>
 
-            {/* right side */}
             <div className="flex-1 relative overflow-hidden">
               <img
                 src="/device-pile.png"
@@ -186,11 +190,10 @@ const AuthScreen = () => {
            px-4 md:px-2
         "
           >
-            {/* left */}
             <div className="flex-1 relative">
-              <img src="/kids.png" alt="Enjoy on your TV" className="mt-4" />
+              <img src="/kids.png" alt="Aproveite na TV" className="mt-4" />
             </div>
-            {/* right */}
+
             <div className="flex-1 text-center md:text-left">
               <h2 className="text-4xl md:text-5xl font-extrabold mb-4">
                 Crie perfil para crianças

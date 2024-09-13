@@ -1,9 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 
+import { Toaster } from "react-hot-toast";
+import Footer from "./components/Footer";
 import Home from "./pages/home/Home";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
-import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
       </Routes>
       <Footer />
+      <Toaster />
     </>
   );
 }

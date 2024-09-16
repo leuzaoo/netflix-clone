@@ -133,3 +133,13 @@ export async function logout(req, res) {
       .json({ success: false, message: "Erro no servidor interno." });
   }
 }
+
+export async function authCheck(req, res) {
+  try {
+    res.status(200).json({ success: true, user: req.user });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Erro no servidor interno." });
+  }
+}

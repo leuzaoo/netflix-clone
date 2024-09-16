@@ -5,7 +5,7 @@ const HomeScreen = () => {
 
   return (
     <div>
-      HomeScreen
+      teste
       <button onClick={logout}>Sair</button>
     </div>
   );

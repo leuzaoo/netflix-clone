@@ -1,12 +1,26 @@
 import useGetTrendingContent from "../../hooks/useGetTrendingContent.jsx";
-import { ORIGINAL_IMG_BASE_URL } from "../../utils/contants.js";
+import {
+  MOVIE_CATEGORIES,
+  ORIGINAL_IMG_BASE_URL,
+  TV_CATEGORIES,
+} from "../../utils/contants.js";
+import MovieSlider from "../../components/MovieSlider.jsx";
+import { useContentStore } from "../../store/content.js";
 import Navbar from "../../components/Navbar.jsx";
 import { Info, Play } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const HomeScreen = () => {
   const { trendingContent } = useGetTrendingContent();
-  console.log(trendingContent);
+  const { contentType } = useContentStore();
+
+  if (!trendingContent)
+    return (
+      <div className="h-screen text-white relative">
+        <Navbar />
+        <div className="absolute top-0 left-0 w-full h-full bg-black/70 flex items-center justify-center -z-10 shimmer" />
+      </div>
+    );
 
   return (
     <>
@@ -70,6 +84,16 @@ const HomeScreen = () => {
             </Link>
           </div>
         </div>
+      </div>
+
+      <div className="flex flex-col gap-10 bg-black py-10">
+        {contentType === "movie"
+          ? MOVIE_CATEGORIES.map((category) => (
+              <MovieSlider key={category} category={category} />
+            ))
+          : TV_CATEGORIES.map((category) => (
+              <MovieSlider key={category} category={category} />
+            ))}
       </div>
     </>
   );

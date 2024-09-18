@@ -9,9 +9,11 @@ import { useContentStore } from "../../store/content.js";
 import Navbar from "../../components/Navbar.jsx";
 import { Info, Play } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const HomeScreen = () => {
   const { trendingContent } = useGetTrendingContent();
+  const [imgLoading, setImgLoading] = useState(true);
   const { contentType } = useContentStore();
 
   if (!trendingContent)
@@ -27,10 +29,17 @@ const HomeScreen = () => {
       <div className="relative h-screen text-white">
         <Navbar />
 
+        {imgLoading && (
+          <div className="absolute top-0 left-0 w-full h-full bg-black/70 flex items-center justify-center shimmer -z-10" />
+        )}
+
         <img
           src={ORIGINAL_IMG_BASE_URL + trendingContent?.backdrop_path}
           alt="Hero img"
           className="absolute top-0 left-0 w-full h-full object-cover -z-50"
+          onLoad={() => {
+            setImgLoading(false);
+          }}
         />
 
         <div

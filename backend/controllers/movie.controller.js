@@ -40,7 +40,7 @@ export async function getMovieDetails(req, res) {
   const { id } = req.params;
   try {
     const data = await fetchFromTMDB(
-      `https://api.themoviedb.org/3/movie/${id}?language=en-US`
+      `https://api.themoviedb.org/3/movie/${id}?language=pt-BR`
     );
 
     res.json({ success: true, content: data });

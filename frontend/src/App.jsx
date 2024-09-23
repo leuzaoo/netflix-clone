@@ -1,7 +1,10 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
+import SearchHistoryPage from "./pages/SearchHistory.jsx";
 import { useAuthStore } from "./store/authUser.js";
+import NotFoundPage from "./pages/NotFound.jsx";
 import WatchPage from "./pages/WatchPage.jsx";
+import SearchPage from "./pages/Search.jsx";
 import { Toaster } from "react-hot-toast";
 import Footer from "./components/Footer";
 import { Loader } from "lucide-react";
@@ -43,6 +46,15 @@ function App() {
           path="/watch/:id"
           element={user ? <WatchPage /> : <Navigate to={"/login"} />}
         />
+        <Route
+          path="/search"
+          element={user ? <SearchPage /> : <Navigate to={"/login"} />}
+        />
+        <Route
+          path="/history"
+          element={user ? <SearchHistoryPage /> : <Navigate to={"/login"} />}
+        />
+        <Route path="/*" element={<NotFoundPage />} />
       </Routes>
       <Footer />
       <Toaster />

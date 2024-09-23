@@ -40,8 +40,15 @@ const Navbar = () => {
           >
             Séries
           </Link>
-          <Link to={"/history"} className="hover:underline">
+          <Link to={"/search"} className="hover:underline">
             Buscas
+          </Link>
+          <Link
+            to={"/history "}
+            className="block hover:underline"
+            onClick={toggleMobileMenu}
+          >
+            Pesquisas
           </Link>
         </div>
       </div>
@@ -78,11 +85,18 @@ const Navbar = () => {
             Séries
           </Link>
           <Link
-            to={"/history "}
+            to={"/search "}
             className="block hover:underline p-2"
             onClick={toggleMobileMenu}
           >
             Buscas
+          </Link>
+          <Link
+            to={"/history "}
+            className="block hover:underline p-2"
+            onClick={toggleMobileMenu}
+          >
+            Pesquisas
           </Link>
         </div>
       )}

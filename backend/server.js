@@ -1,5 +1,6 @@
 import cookieParser from "cookie-parser";
 import express from "express";
+import path from "path";
 
 import searchRoutes from "./routes/search.route.js";
 import movieRoutes from "./routes/movie.route.js";
@@ -13,6 +14,7 @@ import { protectRoute } from "./middleware/protectRoute.js";
 const app = express();
 
 const PORT = ENV_VARS.PORT;
+const __dirname = path.resolve();
 
 app.use(express.json()); // nos permitirá analisar req.body
 app.use(cookieParser());
@@ -21,6 +23,14 @@ app.use("/api/v1/tv", protectRoute, tvRoutes); // executará protectRoute primei
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/movie", protectRoute, movieRoutes); // executará protectRoute primeiro
 app.use("/api/v1/search", protectRoute, searchRoutes); // executará protectRoute primeiro
+
+if (ENV_VARS.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/dist"))); // isto faz com que o frontend seja renderizado para o cliente no ambiente de produção
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

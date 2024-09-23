@@ -6,7 +6,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login } = useAuthStore();
+  const { login, isLoggingIn } = useAuthStore();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -62,8 +62,11 @@ export default function Login() {
               />
             </div>
 
-            <button className="w-full py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700">
-              Entrar
+            <button
+              disabled={isLoggingIn}
+              className="w-full py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700"
+            >
+              {isLoggingIn ? "Carregando..." : "Entrar"}
             </button>
           </form>
 

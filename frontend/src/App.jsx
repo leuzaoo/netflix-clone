@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 
 import { useAuthStore } from "./store/authUser.js";
 import WatchPage from "./pages/WatchPage.jsx";
+import SearchPage from "./pages/Search.jsx";
 import { Toaster } from "react-hot-toast";
 import Footer from "./components/Footer";
 import { Loader } from "lucide-react";
@@ -42,6 +43,10 @@ function App() {
         <Route
           path="/watch/:id"
           element={user ? <WatchPage /> : <Navigate to={"/login"} />}
+        />
+        <Route
+          path="/search/"
+          element={user ? <SearchPage /> : <Navigate to={"/login"} />}
         />
       </Routes>
       <Footer />

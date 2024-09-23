@@ -84,7 +84,7 @@ body {
 
 .hero-bg {
   background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.6)),
-    url("hero.png");
+    url("/hero.png");
 }
 
 .shimmer {

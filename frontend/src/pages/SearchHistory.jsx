@@ -54,6 +54,7 @@ const SearchHistoryPage = () => {
       setSearchHistory(searchHistory.filter((item) => item.id !== entry.id));
     } catch (error) {
       toast.error("Falha ao deletar o item.");
+      console.log("Erro no controlador de deleção: ", error);
     }
   };
 
@@ -78,7 +79,7 @@ const SearchHistoryPage = () => {
       <Navbar />
 
       <div className="max-w-6xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Search History</h1>
+        <h1 className="text-3xl font-bold mb-8">Histórico de Buscas</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3  gap-4">
           {searchHistory?.map((entry) => (
             <div

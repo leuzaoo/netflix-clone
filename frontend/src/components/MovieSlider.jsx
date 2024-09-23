@@ -5,18 +5,12 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const MovieSlider = ({ category }) => {
+const MovieSlider = ({ category, label }) => {
   const [showArrows, setShowArrows] = useState(false);
   const [content, setContent] = useState([]);
   const { contentType } = useContentStore();
 
   const sliderRef = useRef(null);
-
-  const formattedCategoryName =
-    category.replaceAll("_", " ")[0].toUpperCase() +
-    category.replaceAll("_", " ").slice(1);
-
-  const formattedContentType = contentType === "movie" ? "Filmes" : "Séries";
 
   useEffect(() => {
     const getContent = async () => {
@@ -51,9 +45,7 @@ const MovieSlider = ({ category }) => {
       onMouseEnter={() => setShowArrows(true)}
       onMouseLeave={() => setShowArrows(false)}
     >
-      <h2 className="mb-4 text-2xl font-bold">
-        {formattedCategoryName} {formattedContentType}
-      </h2>
+      <h2 className="mb-4 text-2xl font-semibold">{label}</h2>
 
       <div
         className="flex space-x-4 overflow-x-scroll scrollbar-hide"
